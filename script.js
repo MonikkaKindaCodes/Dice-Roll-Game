@@ -16,6 +16,14 @@ overallScore1.textContent = 0;
 overallScore2.textContent = 0;
 diceImg.classList.add('hidden');
 
+const switchPlayer = function () {
+  document.getElementById(`current--${activePlayer}`).textContent = 0;
+  currentScore = 0;
+  activePlayer = activePlayer === 0 ? 1 : 0;
+  playerZeroBG.classList.toggle('player--active');
+  playerOneBG.classList.toggle('player--active');
+};
+
 const scores = [0, 0];
 let currentScore = 0;
 let activePlayer = 0;
@@ -33,10 +41,19 @@ btnRoll.addEventListener('click', function () {
       `current--${activePlayer}`
     ).textContent = currentScore;
   } else {
-    document.getElementById(`current--${activePlayer}`).textContent = 0;
-    currentScore = 0;
-    activePlayer = activePlayer === 0 ? 1 : 0;
-    playerZeroBG.classList.toggle('player--active');
-    playerOneBG.classList.toggle('player--active');
+    switchPlayer();
   }
+});
+
+//Hold Current Score
+btnHold.addEventListener('click', function () {
+  //Add current score to active player
+  scores[activePlayer] += currentScore; //scores[1] = scores[1] + currentScore
+  document.getElementById(`score--${activePlayer}`).textContent =
+    scores[activePlayer];
+
+  //check score is already at 100
+  //If yes, finish game
+  //If not, go to the next player
+  switchPlayer();
 });
